@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Navbar from "./components/navbar";
+import SignInForm from "./components/signinForm";
+import { useSelector } from 'react-redux';
+import "./App.css";
+import SignUpForm from "./components/signUpForm";
+import FilmsPage from "./components/film";
 
-function App() {
+const App = () => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="app">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<SignInForm />} />
+          <Route path="/register" element={<SignUpForm />} /> 
+          {isAuthenticated && <Route path="/films" element={<FilmsPage />} />}
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
